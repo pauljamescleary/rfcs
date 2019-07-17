@@ -72,7 +72,16 @@ Why should we *not* do this?
 # Alternatives
 [alternatives]: #alternatives
 
-What other designs have been considered? What is the impact of not doing this?
+## Always Manual Review
+
+A lot of the complexity introduced in this RFC is due to the "auto processing" nature of the solution.  The alternative approach would be to have all scheduled changes always go into a queue for manual processing.  The high-level flow would follow:
+
+1. A user sets the scheduled time on the batch change and submits the change
+1. VinylDNS runs same validations as there are today, validation processing happens the same as it does today
+1. The system skips processing, and just advances the change to a `ManualReview` status
+1. An on-call technician will need to manually handle the change like they would any change that has soft errors.
+
+We could also have a task that raises a notification for scheduled changes to alert someone that the scheduled change is "Ready" when the scheduled time expires.  However, this introduces complexity around de-duplication of notifications.
 
 # Unresolved questions
 [unresolved]: #unresolved-questions
